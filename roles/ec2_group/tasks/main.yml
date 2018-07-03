@@ -1,0 +1,15 @@
+---
+##  Create Security Group
+
+- name: Create Security Groups
+  ec2_group:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    vpc_id: "{{ ec2_group_vpc_id }}"
+    region: "{{ ec2_group_region }}"
+    rules: "{{ item.rules }}"
+  with_items: "{{ ec2_group }}"
+  when: 
+    - ec2_group is defined
+    - ec2_group != false
+

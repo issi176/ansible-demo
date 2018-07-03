@@ -1,0 +1,33 @@
+## ec2_group : set security group rules
+##
+##  * e.g.
+##    ec2_group:
+##      - name: sample-rule
+##        description: sg for sample
+##        rules:
+##          - proto: tcp
+##            ports: 22
+##            cidr_ip: 172.31.0.0/16
+##          - proto: tcp
+##            ports:
+##              - 80
+##              - 443
+##            cidr_ip: 0.0.0.0/0
+##
+##  * check module's document
+##      http://docs.ansible.com/ansible/latest/modules/ec2_group_module.html
+
+ec2_group: False
+
+## ec2_group_vpc_id : set vpc id
+##
+## * e.g.
+##   ec2_group_vpc_id: vpc-xxxxxxxx
+ec2_group_vpc_id: "{{ global_vpc_id }}"
+
+## ec2_group_region : set vpc region
+##
+## * e.g.
+##   ec2_group_region: ap-northeast-1
+ec2_group_region: "{{ global_aws_region }}"
+

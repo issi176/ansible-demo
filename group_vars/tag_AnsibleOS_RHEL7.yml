@@ -1,0 +1,34 @@
+## yum_update : update packages
+yum_update: true
+
+## yum_package_install : install packages
+yum_package_install:
+  - yum-utils
+  - net-tools
+  - sysstat
+  - tcpdump
+  - strace
+  - telnet
+  - nfs-utils
+  - sos
+
+## yum_package_remove : remove packages
+yum_package_remove: false
+
+## service_enable : enable service
+service_enable: false
+
+## service_disable : disable service
+service_disable: false
+
+## selinux : set selinux status
+selinux: disabled
+
+## zabbix_register_host_groups : set host groups
+zabbix_register_host_groups:
+  - Linux servers
+
+## zabbix_register_link_templates :
+zabbix_register_link_templates:
+  - Template OS Linux
+

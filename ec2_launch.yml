@@ -1,0 +1,15 @@
+---
+## Launch EC2
+
+- hosts: localhost
+  become: no
+  roles:
+
+  ## Create Security Groups
+  - role: ec2_group
+    tags: ec2_group
+  
+  ## Launch EC2 Instances, and Attach TAGs
+  - role: ec2_instance
+    tags: ec2_instance
+

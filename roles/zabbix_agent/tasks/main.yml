@@ -1,0 +1,42 @@
+---
+## Install Zabbix Agent, and Set Parameters
+
+- block:
+
+  - name: Install Zabbix Release Package
+    yum:
+      name: "{{ zabbix_agent_release_url }}"
+      state: present
+    when:
+      - zabbix_agent_release_url is defined
+      - zabbix_agent_release_url != false
+
+  - name: Install Zabbix Agent Packages
+    yum:
+      name: "{{ item }}"
+      state: latest
+      disable_gpg_check: yes
+    with_items: "{{ zabbix_agent_package }}"
+    when:
+      - zabbix_agent_package is defined
+      - zabbix_agent_package != false
+
+  - name: Set zabbix-agent Parameter
+    lineinfile:
+      dest: /etc/zabbix/zabbix_agentd.conf
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+    with_items: "{{ zabbix_agent_conf }}"
+    when:
+      - zabbix_agent_conf is defined
+      - zabbix_agent_conf != false
+
+  - name: Enable zabbix-agent Service
+    service:
+      name: zabbix-agent.service
+      state: restarted
+      enabled: yes
+
+  when:
+    - zabbix_agent_setup is defined
+    - zabbix_agent_setup == true

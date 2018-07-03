@@ -1,0 +1,44 @@
+## zabbix_agent_setup : setup zabbix agent (true or false)
+##
+## * e.g.
+##   zabbix_agent_setup: false
+zabbix_agent_setup: true
+
+## zabbix_agent_release_url : set zabbix release file
+## zabbix_agent_package : set zabbix install packages
+## 
+## * for Miracle ZBX
+zabbix_agent_release_url: 'http://ftp.miraclelinux.com/zbx/3.0/miracle-zbx-release-3.0-1.noarch.rpm'
+zabbix_agent_package:
+  - miracle-zbx-agent
+  - miracle-zbx-sender
+
+## * for Zabbix SIA
+# zabbix_agent_release_url: 'http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm'
+# zabbix_agent_package:
+#   - zabbix-agent
+#   - zabbix-sender
+
+## zabbix_agent_server_ip : set zabbix server's ip
+##
+## * e.g.
+##   zabbix_agent_server_ip: 192.168.0.1
+zabbix_agent_server_ip: "{{ global_zabbix_server_ip }}"
+
+## zabbix_agent_conf : set zabbix_agentd.conf parameters
+## * e.g.
+##   zabbix_agent_conf:
+##     - regexp: '^Hostname='
+##       line: 'Hostname={{ ansible_host }}'
+zabbix_agent_conf:
+  - regexp: '^Hostname='
+    line: 'Hostname={{ ansible_host }}'
+  - regexp: '^ListenIP='
+    line: 'ListenIP=0.0.0.0'
+  - regexp: '^Server='
+    line: 'Server={{ zabbix_agent_server_ip }}'
+  - regexp: '^ServerActive='
+    line: 'ServerActive={{ zabbix_agent_server_ip }}'
+  - regexp: '^AllowRoot='
+    line: 'AllowRoot=1'
+

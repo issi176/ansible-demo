@@ -1,0 +1,23 @@
+## yum_package_install : install packages
+##
+##   * e.g.
+##     yum_package_install:
+##       - sysstat
+##       - httpd
+yum_package_install:
+  - yum-utils
+  - net-tools
+  - sysstat
+  - tcpdump
+  - strace
+  - telnet
+  - nfs-utils
+  - sos
+
+## yum_package_remove : remove packages
+##
+##   * e.g.
+##     yum_package_remove:
+##       - httpd
+yum_package_remove: false
+

@@ -1,0 +1,39 @@
+## AWS settings
+global_vpc_id: vpc-xxxxxxxx
+global_aws_region: "{{ lookup('env','AWS_REGION') }}"
+
+ec2_group:
+  - name: ansible-demo
+    description: 'sg for ansible demo'
+    rules:
+      - proto: tcp
+        ports: 
+          - 22
+          - 10050
+        cidr_ip: 172.31.0.0/16
+
+ec2_instance_autoip: 
+  - instance_tags_Name: ansible-demo-cent7
+    key_name: keyname
+    instance_profile_name: 
+    instance_type: t2.micro
+    root_device_name: /dev/sda1
+    root_volume_size: 10
+    image: ami-3185744e
+    # RHEL 7.5 : ami-6b0d5f0d
+    # CentOS 7 : ami-3185744e
+    group:
+      - ansible-demo
+    vpc_subnet_name: your-subnet-name
+    assign_public_ip: false
+    monitoring: false
+
+ec2_instance_exact_count: 1
+
+## Zabbix settings
+global_zabbix_server_ip: 172.31.10.11
+
+zabbix_register: false
+zabbix_register_login_user: Admin
+zabbix_register_login_password: zabbixpassword
+

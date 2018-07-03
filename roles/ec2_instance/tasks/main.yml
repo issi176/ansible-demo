@@ -1,0 +1,62 @@
+---
+## Launch EC2 Instance, and Attach TAG
+
+- block:
+  
+  - name: Get Subnet ID
+    ec2_vpc_subnet_facts:
+      region: "{{ ec2_instance_region }}"
+      filters: 
+        vpc-id: "{{ ec2_instance_vpc_id }}"
+    register: subnet_result
+  
+  #- debug: var=subnet_result
+  
+  - name: Launch EC2 instance with Auto IP
+    ec2:
+      region: "{{ ec2_instance_region }}"
+      key_name: "{{ item.key_name }}"
+      instance_tags:
+        Name: "{{ item.instance_tags_Name }}"
+      instance_profile_name: "{{ item.instance_profile_name }}"
+      instance_type: "{{ item.instance_type }}"
+      volumes:
+        - device_name: "{{ item.root_device_name }}"
+          volume_type: gp2
+          volume_size: "{{ item.root_volume_size }}"
+          delete_on_termination: True
+      image: "{{ item.image }}"
+      group: "{{ item.group }}"
+      vpc_subnet_id: "{{ subnet_result.subnets | selectattr('tags.Name', 'defined') | selectattr('tags.Name', 'equalto', item.vpc_subnet_name) | map(attribute='id') | first }}"
+      assign_public_ip: "{{ item.assign_public_ip }}"
+      monitoring: "{{ item.monitoring }}"
+      count_tag:
+        Name: "{{ item.instance_tags_Name }}" 
+      exact_count: "{{ ec2_instance_exact_count }}"
+    with_items: "{{ ec2_instance_autoip }}"
+    register: ec2_result
+    when: subnet_result.subnets[0].subnet_id is defined
+  
+#  - debug: var=ec2_result
+
+  - name: Attach tags for Ansible Dynamic Inventory
+    ec2_tag: 
+      region: "{{ ec2_instance_region }}"
+      resource: "{{ item[0] }}"
+      tags: "{{ item[1] }}"
+    with_nested:
+      - "{{ ec2_result.results[0].tagged_instances | map(attribute='id') | list }}"
+      - "{{ ec2_instance_tags }}"
+  
+  - name: Wait for Boot (SSH Connection)
+    wait_for:
+      host={{ item }}
+      port=22
+      state=started
+      delay=1
+      timeout=300
+    with_items: "{{ ec2_result.results[0].tagged_instances | map(attribute='private_ip') | list }}"
+
+  when: 
+    - ec2_instance_autoip is defined
+    - ec2_instance_autoip != false

@@ -1,0 +1,22 @@
+---
+##  Update packages
+
+- block:
+
+  - name: Update kernel/glibc Packages (with reboot)
+    yum:
+      name: "{{ item }}"
+      state: latest
+    notify: reboot
+    with_items:
+      - kernel
+      - glibc
+  
+  - name: Update All Packages
+    yum:
+      name: '*'
+      state: latest
+
+  when:
+    - yum_update is defined
+    - yum_update == true

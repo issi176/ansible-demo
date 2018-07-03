@@ -1,0 +1,50 @@
+---
+## Enable / Disable SELinux
+
+## enforcing
+- block:
+
+  - name: Set SELinux On (setenforce)
+    shell: setenforce 1 || echo "skip"
+
+  - name: Enable SELinux (enforcing)
+    selinux:
+      state: enforcing
+      policy: targeted
+    notify: reboot
+
+  when:
+    - selinux is defined
+    - selinux == "enforcing" 
+
+## permissive
+- block:
+
+  - name: Set SELinux off (setenforce)
+    shell: setenforce 0 || echo "skip"
+
+  - name: Disable SELinux (permissive)
+    selinux:
+      state: permissive
+      policy: targeted
+    notify: reboot
+
+  when:
+    - selinux is defined
+    - selinux == "permissive"
+
+## disabled
+- block:
+
+  - name: Set SELinux off (setenforce)
+    shell: setenforce 0 || echo "skip"
+
+  - name: Disable SELinux (disabled)
+    selinux:
+      state: disabled
+    notify: reboot
+
+  when:
+    - selinux is defined
+    - selinux == "disabled" 
+

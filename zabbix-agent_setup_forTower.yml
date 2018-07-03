@@ -1,0 +1,14 @@
+---
+## Setup ZBX
+
+- hosts: all
+  roles:
+
+  ## Install ZBX Agent, and Setup
+  - role: zabbix_agent
+    tags: zabbix_agent
+
+  ## Register ZBX Server
+  - role: zabbix_register
+    tags: zabbix_register
+

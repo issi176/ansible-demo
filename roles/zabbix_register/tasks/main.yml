@@ -1,0 +1,31 @@
+---
+## Register Zabbix Server
+
+- name: Install Python Module for Zabbix
+  pip:
+    name: zabbix-api
+  run_once: true
+  delegate_to: localhost
+
+- name: Register Host to Zabbix Server
+  zabbix_host:
+    server_url: 'http://{{ zabbix_register_server_ip }}/zabbix'
+    login_user: "{{ zabbix_register_login_user }}"
+    login_password: "{{ zabbix_register_login_password }}"
+    host_name: "{{ ansible_host }}"
+    host_groups: "{{ zabbix_register_host_groups }}"
+    link_templates: "{{ zabbix_register_link_templates }}"
+    interfaces:
+       - type: 1
+         main: 1
+         useip: 1
+         ip: "{{ ansible_host }}"
+         dns: ""
+         port: 10050
+    state: present
+  delegate_to: localhost
+  when:
+    - zabbix_register is defined
+    - zabbix_register == true
+
+

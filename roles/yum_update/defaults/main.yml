@@ -1,0 +1,5 @@
+## yum_update : update packages (true or false)
+##
+## * e.g.
+##   yum_update: True
+yum_update: True

@@ -1,0 +1,34 @@
+## zabbix_register : register to zabbix server (true or false)
+##
+## * e.g.
+##   zabbix_register: true
+zabbix_register: false
+
+## zabbix_register_server_ip : set zabbix server's ip
+## zabbix_register_login_user : set zabbix server's login user
+## zabbix_register_login_password : set zabbix server's login password
+##
+## * e.g.
+##   zabbix_register_server_ip: 192.168.0.10
+##   zabbix_register_login_user : Admin
+##   zabbix_register_login_password : zabbix
+zabbix_register_server_ip: "{{ global_zabbix_server_ip }}"
+zabbix_register_login_user: Admin
+zabbix_register_login_password: zabbix
+
+## zabbix_register_host_groups : set host groups
+##
+## * e.g.
+##   zabbix_register_host_groups:
+##     - Linux servers
+zabbix_register_host_groups:
+  - Linux servers
+
+## zabbix_register_link_templates : 
+##
+## * e.g.
+##   zabbix_register_link_templates:
+##     - Template OS Linux
+zabbix_register_link_templates:
+  - Template OS Linux
+

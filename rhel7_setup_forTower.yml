@@ -1,0 +1,26 @@
+---
+## Setup RHEL7 for Ansible Tower
+
+- hosts: all
+  roles:
+
+  ## Update packages
+  - role: yum_update
+    tags: yum_update
+
+  ## Install / Remove Packages
+  - role: yum_package
+    tags: yum_package
+
+  ## Enable / Disable Services
+  - role: service
+    tags: service
+
+  ## Enable / Disable SELinux
+  - role: selinux
+    tags: selinux
+
+  ## OS Reboot Handler for common (Handler only)
+  - role: reboot
+    tags: reboot
+

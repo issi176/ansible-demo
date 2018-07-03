@@ -1,0 +1,32 @@
+---
+## OS Reboot Handler for common
+##   notify: reboot
+
+- name: OS Reboot
+  shell: sleep 3 && shutdown -r now "Reboot by Ansible"
+  async: 1
+  poll: 0
+  ignore_errors: True
+  listen: reboot
+
+- name: Wait for SSH port Down
+  wait_for:
+    host: "{{ ansible_host }}"
+    # host: "{{ ansible_ssh_host | default(inventory_hostname) }}"
+    port: 22
+    state: stopped
+  become: false
+  delegate_to: localhost
+  listen: reboot
+
+- name: Wait for SSH port Up
+  wait_for:
+    host: "{{ ansible_host }}"
+    # host: "{{ ansible_ssh_host | default(inventory_hostname) }}"
+    port: 22
+    state: started
+    delay: 15
+    timeout: 300
+  become: false
+  delegate_to: localhost
+  listen: reboot

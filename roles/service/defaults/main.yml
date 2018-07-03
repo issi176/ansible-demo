@@ -1,0 +1,16 @@
+## service_enable : enable service
+##
+##  * e.g.
+##    service_enable:
+##      - httpd
+##      - postfix
+service_enable: false
+
+## service_disable : disable service
+##
+##  * e.g.
+##    service_disable:
+##      - httpd
+##      - postfix
+service_disable: false
+

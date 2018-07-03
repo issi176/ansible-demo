@@ -1,0 +1,48 @@
+## ec2_group_vpc_id : set vpc id
+##
+## * e.g.
+##   ec2_instance_vpc_id: vpc-xxxxxxxx
+ec2_instance_vpc_id: "{{ global_vpc_id }}"
+
+## ec2_group_region : set vpc region
+##
+## * e.g.
+##   ec2_instance_region: ap-northeast-1
+ec2_instance_region: "{{ global_aws_region }}"
+
+## ec2_instance_autoip : set ec2 parameter (auto ip)
+## 
+##  * e.g.
+##    ec2_instance_autoip:
+##      - instance_tags_Name: sample01
+##        key_name: sample
+##        instance_profile_name:
+##        instance_type: t2.micro
+##        root_device_name: /dev/sda1
+##        root_volume_size: 10
+##        image: ami-3185744e
+##        # RHEL 7.5 : ami-6b0d5f0d
+##        # CentOS 7 : ami-3185744e
+##        group:
+##          - ansible-demo
+##        vpc_subnet_name: public
+##        assign_public_ip: true
+##        monitoring: false
+ec2_instance_autoip: False
+
+## ec2_instance_tags : set ec2 tags
+## 
+##  * e.g.
+##    ec2_instance_tags:
+##      - 'AnsibleManaged: True'
+##      - 'AnsibleOS: RHEL7'
+ec2_instance_tags:
+  - AnsibleManaged: True
+  - AnsibleOS: "RHEL7"
+
+## ec2_instance_exact_count : set ec2 boot number
+## 
+##  * e.g.
+##    ec2_instance_exact_count: 1
+ec2_instance_exact_count: 1
+

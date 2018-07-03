@@ -1,0 +1,24 @@
+---
+## Enable / Disable Service
+
+- name: Enable Service
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items: "{{ service_enable }}"
+  when:
+    - service_enable is defined
+    - service_enable != false
+
+- name: Disable Service
+  service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+  with_items: "{{ service_disable }}"
+  when:
+    - service_disable is defined
+    - service_disable != false
+
+-

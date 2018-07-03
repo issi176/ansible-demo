@@ -1,0 +1,21 @@
+---
+## Install / Remove Packages
+
+- name: Remove Packages
+  yum:
+    name: "{{ item }}"
+    state: removed
+  with_items: "{{ yum_package_remove }}"
+  when:
+    - yum_package_remove is defined
+    - yum_package_remove != false
+
+- name: Install Packages
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ yum_package_install }}"
+  when:
+    - yum_package_install is defined
+    - yum_package_install != false
+

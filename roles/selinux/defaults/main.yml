@@ -1,0 +1,8 @@
+## selinux : set selinux status
+##
+## * e.g.
+##   selinux: disabled
+##   selinux: permissive
+##   selinux: enforcing
+selinux: disabled
+
