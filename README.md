@@ -2,10 +2,10 @@
 
 Ansible Night in Osaka 2018.07 にて使用した Ansible の Demo Playbook 
 
-- [前提条件](#preconditions)
-- [実行内容](#actions)
-- [変数一覧](#variables)
-- [実行手順](#order)
+- [前提条件](#前提条件)
+- [実行内容](#実行内容)
+- [変数一覧](#変数一覧)
+- [実行手順](#実行手順)
 
 ## 前提条件
 
@@ -41,7 +41,7 @@ Playbookは次の環境で作成、動作を確認済み
 
 ## 変数一覧
 
-このPlaybookで使用する変数は次のとおり、記述例は roles/<ROLE>/default/main.yml を参照
+このPlaybookで使用する変数は次のとおり、記述例は roles/ *Role Name* /default/main.yml を参照
 
 ### 共通変数
 
