@@ -1,0 +1,18 @@
+---
+## Add Host to Inventory From ec2_instance_facts
+
+- name: Get EC2 List
+  ec2_instance_facts:
+    region: "{{ ec2_add_host_region }}"
+    filters:
+      instance-state-name: running
+      "tag:AnsibleManaged": "True"
+      "tag:AnsibleOS": "{{ ec2_add_host_AnsibleOS }}"
+  register: ec2_result
+
+- name: Add Host to Inventory (on memory)
+  add_host:
+    name: "{{ item.network_interfaces[0].private_ip_address }}"
+    group: "{{ ec2_add_host_AnsibleOS }}"
+  with_items: "{{ ec2_result.instances }}"
+

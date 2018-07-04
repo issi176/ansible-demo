@@ -12,14 +12,14 @@
     server_url: 'http://{{ zabbix_register_server_ip }}/zabbix'
     login_user: "{{ zabbix_register_login_user }}"
     login_password: "{{ zabbix_register_login_password }}"
-    host_name: "{{ ansible_host }}"
+    host_name: "{{ inventory_hostname }}"
     host_groups: "{{ zabbix_register_host_groups }}"
     link_templates: "{{ zabbix_register_link_templates }}"
     interfaces:
        - type: 1
          main: 1
          useip: 1
-         ip: "{{ ansible_host }}"
+         ip: "{{ inventory_hostname }}"
          dns: ""
          port: 10050
     state: present

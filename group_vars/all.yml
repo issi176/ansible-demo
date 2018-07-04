@@ -31,9 +31,9 @@ ec2_instance_autoip:
 ec2_instance_exact_count: 1
 
 ## Zabbix settings
-global_zabbix_server_ip: 172.31.10.11
+global_zabbix_server_ip: 172.31.xx.xx
 
 zabbix_register: false
 zabbix_register_login_user: Admin
-zabbix_register_login_password: zabbixpassword
+zabbix_register_login_password: zabbix
 

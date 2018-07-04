@@ -1,0 +1,11 @@
+## ec2_add_host_region : set vpc region
+##
+## * e.g.
+##   ec2_add_host_region: ap-northeast-1
+ec2_add_host_region: "{{ global_aws_region }}"
+
+## ec2_add_host_AnsibleOS: set ec2 tag filter (tagName=AnsibleOS)
+##
+## * e.g.
+##   ec2_add_host_AnsibleOS: RHEL7
+ec2_add_host_AnsibleOS: RHEL7

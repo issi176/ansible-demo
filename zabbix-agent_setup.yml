@@ -1,7 +1,13 @@
 ---
-## Setup ZBX
+## Add Host to Inventory
+- hosts: localhost
+  become: no
+  roles:
+  - role: ec2_add_host
+    tags: always
 
-- hosts: tag_AnsibleOS_RHEL7
+## Setup ZBX
+- hosts: RHEL7
   roles:
 
   ## Install ZBX Agent, and Setup

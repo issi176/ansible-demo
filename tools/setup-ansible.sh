@@ -22,23 +22,3 @@ pip install boto
 pip install 'jinja2>=2.8'
 pip install zabbix-api
 
-## enable aws dynamic inventory
-##   https://aws.amazon.com/jp/blogs/apn/getting-started-with-ansible-and-dynamic-amazon-ec2-inventory-management/
-
-curl -L https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py -O \
-    && chmod 755 ec2.py \
-    && mv ec2.py /usr/local/bin/
-
-curl -L https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.ini -O \
-    && chmod 755 ec2.ini \
-    && sed -i -e "s/^vpc_destination_variable = .*$/vpc_destination_variable = private_ip_address/" ec2.ini \
-    && sed -i -e "s/^cache_max_age = .*$/cache_max_age = 0/" ec2.ini \
-    && mv ec2.ini /usr/local/etc/
-
-cat <<EOF > /etc/profile.d/ec2.sh
-export ANSIBLE_INVENTORY=/usr/local/bin/ec2.py
-export EC2_INI_PATH=/usr/local/etc/ec2.ini
-EOF
-
-source /etc/profile.d/ec2.sh
-

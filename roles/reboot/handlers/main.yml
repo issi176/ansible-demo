@@ -11,18 +11,20 @@
 
 - name: Wait for SSH port Down
   wait_for:
-    host: "{{ ansible_host }}"
-    # host: "{{ ansible_ssh_host | default(inventory_hostname) }}"
+    #host: "{{ ansible_host }}"
+    host: "{{ inventory_hostname }}"
     port: 22
     state: stopped
+    delay: 0
+    timeout: 180
   become: false
   delegate_to: localhost
   listen: reboot
 
 - name: Wait for SSH port Up
   wait_for:
-    host: "{{ ansible_host }}"
-    # host: "{{ ansible_ssh_host | default(inventory_hostname) }}"
+    #host: "{{ ansible_host }}"
+    host: "{{ inventory_hostname }}"
     port: 22
     state: started
     delay: 15

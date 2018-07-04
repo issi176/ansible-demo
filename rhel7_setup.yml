@@ -1,7 +1,14 @@
 ---
-## Setup RHEL7
 
-- hosts: tag_AnsibleOS_RHEL7
+## Add Host to Inventory
+- hosts: localhost
+  become: no
+  roles:
+  - role: ec2_add_host
+    tags: always
+
+## Setup RHEL7
+- hosts: RHEL7
   roles:
 
   ## Update packages

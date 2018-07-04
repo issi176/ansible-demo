@@ -18,30 +18,49 @@ Playbookは次の環境で作成、動作を確認済み
   - boto3 1.7.48
   - Jinja2 2.10
   - zabbix-api 0.5.3
-- ec2.py 設置
 
-環境準備の詳細は tools/setup-ansible.sh を参照
+環境準備の詳細は tools/setup-ansible.sh を参照のこと
 
 ## 実行内容
 
 このPlaybookでは以下を実行する
 
-- AWS EC2 の起動 : ec2_launch.yml
-  - AWS EC2 Security Groupの作成 (ec2_group)
-  - AWS EC2 Instance (CentOS7) の起動とTagの付与 (ec2_instance)
-- CentOS7 の設定 : rhel7_setup.yml
-  - CentOS7 パッケージアップデート (yum_update)
-  - CentOS7 パッケージ追加/削除 (yum_package)
-  - CentOS7 サービス有効化/無効化 (service)
-  - CentOS7 SELinux設定 (selinux)
-  - CentOS7 OS再起動 (reboot)
-- Zabbix 監視設定 : zabbix-agent_setup.yml
-  - Zabbix Agent 導入・設定 (zabbix_agent)
-  - Zabbix Server への監視登録 (zabbix_register)
+- AWS EC2 の起動
+  - Security Groupの作成
+  - Instance (CentOS7) の起動とTagの付与
+- CentOS7 の設定
+  - パッケージアップデート
+  - パッケージ追加/削除
+  - サービス有効化/無効化
+  - SELinux設定
+  - OS再起動
+- Zabbix 監視設定
+  - Zabbix Agent 導入・設定
+  - Zabbix Server への監視登録
+
+playbookとroleの関係は次のとおり
+
+```bash
+site.yml
+  ├─ ec2_launch.yml
+  │  ├─ ec2_group
+  │  └─ ec2_instance
+  ├─ rhel7_setup.yml
+  │  ├─ ec2_add_host
+  │  ├─ yum_update
+  │  ├─ yum_package
+  │  ├─ service
+  │  ├─ selinux
+  │  └─ reboot
+  └─ zabbix-agent_setup.yml
+     ├─ ec2_add_host
+     ├─ zabbix_agent
+     └─ zabbix_register
+```
 
 ## 変数一覧
 
-このPlaybookで使用する変数は次のとおり、記述例は roles/ *Role Name* /default/main.yml を参照
+このPlaybookで使用する変数は次のとおり、記述例は roles/ *ROLE-NAME* /default/main.yml を参照のこと
 
 ### 共通変数
 
@@ -70,6 +89,8 @@ role共通で使用する変数
 
 | role | key | description | 
 | --- | --- | --- |
+| ec2_add_host | ec2_add_host_region | 操作対象のリージョンを指定、*global_aws_region* による上書きを想定 |
+|| ec2_add_host_AnsibleOS | Inventoryへ追加するtag filter条件、検索対象tag:AnsibleOS の値を指定 |
 | yum_update | yum_update | *boolean* yum update の実施有無を指定 |
 | yum_package | yum_package_install | yum install 対象のパッケージ名を指定、false の場合はinstallなし |
 || yum_package_remove | yum remove 対象のパッケージ名を指定、false の場合はremoveなし |
@@ -107,12 +128,12 @@ $ cd ansible-demo
 $
 ```
 
-変数ファイルを作成 (既存ファイルを参考に編集)
+変数ファイルを作成 (既存ファイルを編集)
 
 ```bash
 $ vi group_vars/all.yml
 ...
-$ vi group_vars/tag_AnsibleOS_RHEL7.yml
+$ vi group_vars/RHEL7.yml
 ...
 $
 ```
@@ -127,25 +148,24 @@ $ source set_aws_keys.sh
 $
 ```
 
-ec2.py にて値が取得できることを確認
+(必要に応じて)環境変数を~/.bash_profile へ追記
 
 ```bash
-$ ec2.py
-{
-  "_meta": {
-    "hostvars": {
-    ...
+$ cat set_aws_keys.sh >> ~/.bash_profile
 $
 ```
 
-playbookを順に実行
+EC2 起動時に使用するkey pairの秘密鍵をローカルへコピー
 
 ```bash
-$ ansible-playbook ec2_launch.yml
-...
-$ ansible-playbook rhel7_setup.yml
-...
-$ ansible-playbook zabbix-agent_setup.yml
+$ cp <keypair>.pem ~/.ssh/id_rsa
+$
+```
+
+playbookを実行
+
+```bash
+$ ansible-playbook site.yml
 ...
 $
 ```

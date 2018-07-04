@@ -32,7 +32,7 @@ zabbix_agent_server_ip: "{{ global_zabbix_server_ip }}"
 ##       line: 'Hostname={{ ansible_host }}'
 zabbix_agent_conf:
   - regexp: '^Hostname='
-    line: 'Hostname={{ ansible_host }}'
+    line: 'Hostname={{ inventory_hostname }}'
   - regexp: '^ListenIP='
     line: 'ListenIP=0.0.0.0'
   - regexp: '^Server='

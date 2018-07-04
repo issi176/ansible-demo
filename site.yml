@@ -1,0 +1,7 @@
+---
+## Main Playbook
+
+- import_playbook: ec2_launch.yml
+- import_playbook: rhel7_setup_test.yml
+- import_playbook: zabbix-agent_setup_test.yml
+
