@@ -159,6 +159,7 @@ EC2 起動時に使用するkey pairの秘密鍵をローカルへコピー
 
 ```bash
 $ cp <keypair>.pem ~/.ssh/id_rsa
+$ chmod 400 ~/.ssh/id_rsa
 $
 ```
 
