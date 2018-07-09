@@ -91,7 +91,7 @@ role共通で使用する変数
 | --- | --- | --- |
 | ec2_add_host | ec2_add_host_region | 操作対象のリージョンを指定、*global_aws_region* による上書きを想定 |
 || ec2_add_host_AnsibleOS | Inventoryへ追加するtag filter条件、検索対象tag:AnsibleOS の値を指定 |
-| yum_update | yum_update | *boolean* yum update の実施有無を指定 |
+| yum_update | yum_update | *(boolean)* yum update の実施有無を指定 |
 | yum_package | yum_package_install | yum install 対象のパッケージ名を指定、false の場合はinstallなし |
 || yum_package_remove | yum remove 対象のパッケージ名を指定、false の場合はremoveなし |
 | service | service_enable | 有効化するサービス名を指定、false の場合は有効化なし |
@@ -103,12 +103,12 @@ role共通で使用する変数
 
 | role | key | description | 
 | --- | --- | --- |
-| zabbix_agent | zabbix_agent_setup | *boolean* Zabbix Agentの導入/設定の実施有無を指定 |
+| zabbix_agent | zabbix_agent_setup | *(boolean)* Zabbix Agentの導入/設定の実施有無を指定 |
 || zabbix_agent_release_url | Zabbix Agent の release file URLを指定 |
 || zabbix_agent_package | Zabbix Agent の 導入対象パッケージを指定 |
 || zabbix_agent_server_ip | Zabbix ServerのIPを指定、*global_zabbix_server_ip* による上書きを想定 |
 || zabbix_agent_conf | zabbix_agentd.conf の設定変更内容を指定 |
-| zabbix_register | zabbix_register | *boolean* Zabbix Serverへの登録の実施有無を指定 | 
+| zabbix_register | zabbix_register | *(boolean)* Zabbix Serverへの登録の実施有無を指定 | 
 || zabbix_register_server_ip | Zabbix ServerのIPを指定、*global_zabbix_server_ip* による上書きを想定 |
 || zabbix_register_login_user | Zabbix Serverへのログインユーザを指定 |
 || zabbix_register_login_password | Zabbix Serverへのログインパスワードを指定 |
@@ -171,6 +171,12 @@ $ ansible-playbook site.yml
 $
 ```
 
+※site.yml から import している各playbookを実行してもOK
+
+```bash
+$ ansible-playbook ec2_launch.yml
+$ ansible-playbook rhel7_setup.yml
+$ ansible-playbook zabbix-agent_setup.yml
+```
+
 以上
-
-
